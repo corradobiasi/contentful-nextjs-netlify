@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { getPosts } from '../utils/mdx-utils';
 
+import { fetchEntries } from '@utils/contentfulPosts'
+import Post from '@components/Post'
+
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Layout, { GradientBackground } from '../components/Layout';
@@ -17,6 +20,11 @@ export default function Index({ posts, globalData }) {
         <h1 className="text-3xl lg:text-5xl text-center mb-12">
           {globalData.blogTitle}
         </h1>
+        <div className="posts">
+          {posts.map((p) => {
+            return <Post key={p.date} date={p.date} image={p.image.fields} title={p.title} />
+          })}
+        </div>
         <ul className="w-full">
           {posts.map((post) => (
             <li
@@ -59,9 +67,22 @@ export default function Index({ posts, globalData }) {
   );
 }
 
-export function getStaticProps() {
-  const posts = getPosts();
-  const globalData = getGlobalData();
+// export function getStaticProps() {
+//   const posts = getPosts();
+//   const globalData = getGlobalData();
 
-  return { props: { posts, globalData } };
+//   return { props: { posts, globalData } };
+// }
+
+export async function getStaticProps() {
+  const res = await fetchEntries()
+  const posts = await res.map((p) => {
+    return p.fields
+  })
+
+  return {
+    props: {
+      posts,
+    },
+  }
 }
