@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { getPosts } from '../utils/mdx-utils';
 
-import { fetchEntries } from '@utils/contentfulPosts'
-import Post from '@components/Post'
+import { fetchEntries } from '../utils/contentfulPosts'
+import Post from '../components/Post'
 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
